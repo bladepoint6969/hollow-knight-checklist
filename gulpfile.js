@@ -1,6 +1,6 @@
 var fs = require('file-system');
 var gulp = require('gulp');
-var sass = require('gulp-sass');
+var sass = require('gulp-sass')(require('sass'));
 var twig = require('gulp-twig');
 var copy = require('gulp-copy');
 var concat = require('gulp-concat');
@@ -26,7 +26,7 @@ gulp.task('sass', function () {
 });
 
 gulp.task('js', function () {
-	return gulp.src(['./node_modules/js-cookie/src/js.cookie.js', 'js/app.js'])
+	return gulp.src(['js/app.js'])
 		.pipe(concat('app.js'))
 		.pipe(gulp.dest('./docs/js/'))
 		.pipe(browserSync.reload({

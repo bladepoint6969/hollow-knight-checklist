@@ -11,7 +11,7 @@ function init() {
 }
 
 function reloadProgress() {
-	var progress = Cookies.get('progress');
+	var progress = localStorage.getItem('progress');
 
 	if(progress && progress.length){
 		progress = JSON.parse(progress);
@@ -19,7 +19,7 @@ function reloadProgress() {
 		for(var id in progress) {
 			if(progress[id] == 1) {
 				var el = document.querySelector("input[data-key='" + id + "']");
-				
+
 				el.checked = true;
 			}
 		}
@@ -65,7 +65,7 @@ function saveProgress() {
 		progress[id] = checked;
 	}
 
-	Cookies.set('progress', progress);
+	localStorage.setItem('progress', JSON.stringify(progress));
 }
 
 function countProgress() {
@@ -83,25 +83,25 @@ function countProgress() {
 	}
 
 	if(a == 0) {
-		document.getElementById("congrats").style["display"] = "inline"; 
+		document.getElementById("congrats").style["display"] = "inline";
 	} else {
-		document.getElementById("congrats").style["display"] = ""; 
+		document.getElementById("congrats").style["display"] = "";
 	}
 
 	if(a < checkboxes.length) {
-		document.getElementById("uncheckAll").style["display"] = "inline"; 
+		document.getElementById("uncheckAll").style["display"] = "inline";
 	} else {
-		document.getElementById("uncheckAll").style["display"] = ""; 
+		document.getElementById("uncheckAll").style["display"] = "";
 	}
 }
 
 function initCookieAlert() {
-	var hiddenCookieAlert = Cookies.get('hideCookieAlert');
+	var hiddenCookieAlert = localStorage.getItem('hideCookieAlert');
 
 	if(! hiddenCookieAlert) {
 		document.getElementById("hideCookieAlert").addEventListener('click', function(event) {
 			event.preventDefault();
-			Cookies.set('hideCookieAlert', true);
+			localStorage.setItem('hideCookieAlert', true);
 			document.getElementById("cookieAlert").style['display'] = 'none';
 		});
 	} else {
