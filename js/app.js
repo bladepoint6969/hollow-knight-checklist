@@ -6,7 +6,6 @@ function init() {
 	countProgress();
 	listenForProgress();
 	updatePercentage();
-	initCookieAlert();
 	document.getElementsByTagName('body')[0].className = "js";
 }
 
@@ -92,20 +91,6 @@ function countProgress() {
 		document.getElementById("uncheckAll").style["display"] = "inline";
 	} else {
 		document.getElementById("uncheckAll").style["display"] = "";
-	}
-}
-
-function initCookieAlert() {
-	var hiddenCookieAlert = localStorage.getItem('hideCookieAlert');
-
-	if(! hiddenCookieAlert) {
-		document.getElementById("hideCookieAlert").addEventListener('click', function(event) {
-			event.preventDefault();
-			localStorage.setItem('hideCookieAlert', true);
-			document.getElementById("cookieAlert").style['display'] = 'none';
-		});
-	} else {
-		document.getElementById("cookieAlert").style['display'] = 'none';
 	}
 }
 
