@@ -19,7 +19,7 @@ gulp.task('sass', function () {
 	return gulp.src('scss/app.scss')
 		.pipe(sass())
 		.pipe(cleanCSS({compatibility: 'ie8'}))
-		.pipe(gulp.dest('docs/css'))
+		.pipe(gulp.dest('dist/css'))
 		.pipe(browserSync.reload({
 			stream: true
 		}));
@@ -28,19 +28,20 @@ gulp.task('sass', function () {
 gulp.task('js', function () {
 	return gulp.src(['js/app.js'])
 		.pipe(concat('app.js'))
-		.pipe(gulp.dest('./docs/js/'))
+		.pipe(gulp.dest('./dist/js/'))
 		.pipe(browserSync.reload({
 			stream: true
 		}));
 });
 
+// Builds index.html from Twig template and game data
 gulp.task('twig', function () {
     'use strict';
     return gulp.src('./twig/index.twig')
         .pipe(twig({
             data: JSON.parse(fs.readFileSync('gameData.json'))
         }))
-        .pipe(gulp.dest('./docs'))
+        .pipe(gulp.dest('./dist'))
 		.pipe(browserSync.reload({
 			stream: true
 		}));
@@ -49,7 +50,7 @@ gulp.task('twig', function () {
 gulp.task('images', function () {
 	return gulp
 		.src('./img/*')
-		.pipe(copy('./docs'))
+		.pipe(copy('./dist'))
 		.pipe(browserSync.reload({
 			stream: true
 		}));
@@ -58,7 +59,21 @@ gulp.task('images', function () {
 gulp.task('fonts', function () {
 	return gulp
 		.src('./fonts/*')
-		.pipe(copy('./docs'))
+		.pipe(copy('./dist'))
+		.pipe(browserSync.reload({
+			stream: true
+		}));
+});
+
+gulp.task('icons', function () {
+	// Copy favicon.ico to dist root
+	gulp.src('./icons/favicon.ico')
+		.pipe(gulp.dest('./dist'));
+
+	// Copy all other icons to dist/icons
+	return gulp
+		.src(['./icons/*', '!./icons/favicon.ico'])
+		.pipe(copy('./dist'))
 		.pipe(browserSync.reload({
 			stream: true
 		}));
@@ -70,11 +85,13 @@ gulp.task('watch', function() {
 	gulp.watch(['twig/*', 'gameData.json'], gulp.series(['twig']));
 	gulp.watch('img/*', gulp.series(['images']));
 	gulp.watch('fonts/*', gulp.series(['fonts']));
+	gulp.watch('icons/*', gulp.series(['icons']));
 	browserSync.init({
 		server: {
-			baseDir: 'docs'
+			baseDir: 'dist'
 		},
 	});
 });
 
-gulp.task('default', gulp.series(['css', 'images', 'fonts', 'sass', 'js', 'twig', 'watch']));
+gulp.task('default', gulp.series(['css', 'images', 'fonts', 'icons', 'sass', 'js', 'twig', 'watch']));
+gulp.task('build', gulp.series(['css', 'images', 'fonts', 'icons', 'sass', 'js', 'twig']));
