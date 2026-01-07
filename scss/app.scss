@@ -1,5 +1,6 @@
-@import "normalize";
-@import "fonts";
+@use "sass:color";
+@use "normalize";
+@use "fonts";
 
 * {
 	box-sizing: border-box;
@@ -214,7 +215,7 @@ footer {
 }
 
 #noJsAlert {
-	color: lighten(#FF0000, 20%);
+	color: color.adjust(#FF0000, $lightness: 20%);
 	text-align: center;
 }
 

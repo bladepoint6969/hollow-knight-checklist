@@ -1,4 +1,4 @@
-var fs = require('file-system');
+var fs = require('fs');
 var gulp = require('gulp');
 var sass = require('gulp-sass')(require('sass'));
 var twig = require('gulp-twig');
